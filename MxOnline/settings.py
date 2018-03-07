@@ -34,6 +34,10 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+AUTHENTICATION_BACKENDS = (
+    'users.views.CustomBackend',
+)
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -46,7 +50,9 @@ INSTALLED_APPS = [
     'organization',
     'operation',
     'xadmin',
-    'crispy_forms'
+    'crispy_forms',
+    'captcha',           #第三方验证码库
+    'pure_pagination'      #分页的第三库
 ]
 
 AUTH_USER_MODEL = "users.UserProfile"    #并使用创建好的models的名
@@ -76,6 +82,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.media',  #上下文处理器，将url配置到html页面中
             ],
         },
     },
@@ -138,3 +145,20 @@ USE_TZ = False  #UTC时间（国际时间）
 STATIC_ROOT = '/'
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [                #static目录存放的路径
+    os.path.join(BASE_DIR,"static")
+]
+
+
+#邮箱smtp服务的配置
+EMAIL_HOST = "smtp.163.com"
+EMAIL_POST = 25
+EMAIL_HOST_USER = "15259142008@163.com"
+EMAIL_HOST_PASSWORD = "yfy19970820"
+EMAIL_USE_TLS = False
+EMAIL_FROM = "15259142008@163.com"
+
+
+#上传文件的地址配置
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
